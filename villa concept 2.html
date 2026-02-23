@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VILLA | Kun Khmer Sanctuary</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Oswald:wght@300;400;500;700&family=Space+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --jungle: #1E2A23;
+            --jungle-mid: #2B3A32;
+            --linen: #F4F1EB;
+            --linen-dark: #E8E4DC;
+            --clay: #B94A3E;
+            --clay-dark: #9C3C32;
+            --gold: #C4A35A;
+            --charcoal: #141414;
+            --text-light: #888;
+            --border: rgba(26,26,26,0.12);
+            --radius: 3px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--charcoal);
+            color: var(--charcoal);
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            line-height: 1.85;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: default;
+        }
+
+        ::selection {
+            background: var(--clay);
+            color: white;
+        }
+
+        h1, h2, h3, h4, .sans {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            line-height: 1.05;
+            letter-spacing: 0.02em;
+        }
+
+        .mono {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* --- FILM GRAIN OVERLAY --- */
+        .grain {
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.5;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            position: fixed;
+            width: 8px; height: 8px;
+            background: var(--clay);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 40px; height: 40px;
+            border: 1.5px solid var(--clay);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-ring.hover {
+            width: 60px; height: 60px;
+            border-color: var(--gold);
+        }
+
+        /* --- PRELOADER --- */
+        .preloader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--charcoal);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .preloader.done {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 12px;
+            color: white;
+            position: relative;
+        }
+
+        .preloader-bar {
+            width: 120px;
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preloader-bar::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--clay);
+            animation: preload 2s ease-in-out forwards;
+        }
+
+        @keyframes preload {
+            to { width: 100%; }
+        }
+
+        /* --- GLOBAL NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            padding: 2rem 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        nav.scrolled {
+            padding: 1rem 5vw;
+            background: rgba(244, 241, 235, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        nav.scrolled .logo { color: var(--charcoal); }
+        nav.scrolled .nav-links a { color: var(--charcoal); }
+        nav.scrolled .nav-links a:hover { color: var(--clay); }
+        nav.scrolled .btn-nav { color: white !important; }
+        nav.scrolled .hamburger span { background: var(--charcoal); }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0%; height: 1px;
+            background: var(--clay);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active-link::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active-link { color: white; }
+        nav.scrolled .nav-links a.active-link { color: var(--clay); }
+
+        .btn-nav {
+            background: var(--clay);
+            color: white !important;
+            padding: 0.65rem 2rem;
+            border-radius: var(--radius);
+            letter-spacing: 2px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .btn-nav::after { display: none; }
+        .btn-nav:hover { background: var(--clay-dark); transform: translateY(-1px); }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 1.5px;
+            background: white;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--charcoal);
+            z-index: 998;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu.open { opacity: 1; visibility: visible; }
+
+        .mobile-menu a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover { color: var(--clay); }
+
+        /* --- PAGE ROUTING --- */
+        .page-view {
+            display: none;
+            opacity: 0;
+            animation: pageIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .page-view.active { display: block; }
+
+        @keyframes pageIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- SCROLL REVEAL --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.visible { opacity: 1; transform: scale(1); }
+        .d1 { transition-delay: 0.1s; }
+        .d2 { transition-delay: 0.2s; }
+        .d3 { transition-delay: 0.3s; }
+        .d4 { transition-delay: 0.4s; }
+        .d5 { transition-delay: 0.5s; }
+
+        /* --- HERO SECTIONS --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-sub { height: 70vh; }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 120%;
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0.1) 40%,
+                rgba(0,0,0,0.5) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            color: white;
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content .subtitle {
+            font-family: 'Lora', serif;
+            font-size: clamp(1rem, 1.8vw, 1.3rem);
+            font-style: italic;
+            font-weight: 400;
+            max-width: 550px;
+            margin: 0 auto 2.5rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+        }
+
+        .hero-content .hero-cta {
+            display: inline-block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 1rem 3rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .hero-cta:hover {
+            background: white;
+            color: var(--charcoal);
+            border-color: white;
+        }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 3rem; left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .hero-scroll-hint .mono { font-size: 0.65rem; letter-spacing: 2px; }
+
+        .scroll-line {
+            width: 1px; height: 40px;
+            background: rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: -100%; left: 0;
+            width: 100%; height: 100%;
+            background: var(--clay);
+            animation: scrollDown 2s ease infinite;
+        }
+
+        @keyframes scrollDown {
+            0% { top: -100%; }
+            50% { top: 100%; }
+            100% { top: 100%; }
+        }
+
+        /* --- SECTION UTILITIES --- */
+        .section { padding: 16vh 8vw; }
+        .section-sm { padding: 10vh 8vw; }
+        .bg-linen { background: var(--linen); }
+        .bg-linen-dark { background: var(--linen-dark); }
+        .bg-dark { background: var(--jungle); color: rgba(255,255,255,0.85); }
+        .bg-charcoal { background: var(--charcoal); color: rgba(255,255,255,0.85); }
+        .bg-dark h2, .bg-dark h3, .bg-charcoal h2, .bg-charcoal h3 { color: white; }
+        .text-center { text-align: center; }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--clay);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        h2.section-title {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--charcoal);
+            letter-spacing: -0.02em;
+        }
+
+        .section-intro {
+            max-width: 650px;
+            margin: 0 auto 5rem;
+            color: var(--text-light);
+            font-size: 1.15rem;
+        }
+
+        .accent { color: var(--clay); }
+        .accent-gold { color: var(--gold); }
+
+        /* --- EDITORIAL SPLIT --- */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8vw;
+            align-items: center;
+        }
+
+        .split.reverse { direction: rtl; }
+        .split.reverse > * { direction: ltr; }
+
+        .split-text .label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--clay);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .split-text h3 {
+            font-size: clamp(2rem, 3vw, 3rem);
+            margin-bottom: 1.5rem;
+            color: var(--charcoal);
+        }
+
+        .bg-dark .split-text h3 { color: white; }
+
+        .split-text p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .split-text .text-link {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--clay);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: gap 0.3s ease;
+        }
+
+        .split-text .text-link:hover { gap: 1rem; }
+        .text-link-arrow { transition: transform 0.3s ease; }
+
+        .split-media {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .split-media img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .split-media:hover img { transform: scale(1.03); }
+
+        .img-badge {
+            position: absolute;
+            bottom: 1.5rem; left: 1.5rem;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- MARQUEE TICKER --- */
+        .marquee {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 3rem 0;
+            background: var(--charcoal);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            color: rgba(255,255,255,0.12);
+            letter-spacing: 4px;
+            padding: 0 3rem;
+        }
+
+        .marquee-item .dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            background: var(--clay);
+            border-radius: 50%;
+            margin: 0 2rem;
+            vertical-align: middle;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* --- STATS COUNTER --- */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .stat-number {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 700;
+            color: var(--clay);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* --- DAILY SCHEDULE --- */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            background: rgba(255,255,255,0.08);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .schedule-block {
+            background: var(--jungle);
+            padding: 2.5rem 2rem;
+            transition: background 0.4s ease;
+        }
+
+        .schedule-block:hover { background: rgba(255,255,255,0.04); }
+
+        .schedule-time {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--clay);
+            margin-bottom: 0.75rem;
+        }
+
+        .schedule-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .schedule-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+        }
+
+        /* --- ROOM CARDS --- */
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .room-card {
+            background: white;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .room-card:hover { transform: translateY(-8px); }
+
+        .room-card-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .room-card:hover .room-card-img { transform: scale(1.05); }
+
+        .room-card-img-wrap { overflow: hidden; }
+
+        .room-card-body {
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        .room-card-type {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--clay);
+            margin-bottom: 0.5rem;
+        }
+
+        .room-card-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            margin-bottom: 0.75rem;
+        }
+
+        .room-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .room-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .room-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            color: var(--charcoal);
+        }
+
+        .room-price span {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        .room-features {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .room-feat {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        /* --- TESTIMONIAL --- */
+        .testimonial-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-quote {
+            font-family: 'Lora', serif;
+            font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+            font-style: italic;
+            line-height: 1.6;
+            color: white;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            position: relative;
+        }
+
+        .testimonial-quote::before {
+            content: '\201C';
+            font-family: 'Lora', serif;
+            font-size: 8rem;
+            color: var(--clay);
+            position: absolute;
+            top: -3rem; left: -2rem;
+            line-height: 1;
+            opacity: 0.4;
+        }
+
+        .testimonial-author {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--clay);
+        }
+
+        .testimonial-role {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.35);
+            margin-top: 0.3rem;
+        }
+
+        /* --- HORIZONTAL SCROLL GALLERY --- */
+        .hscroll-section { padding: 12vh 0 12vh 8vw; overflow: hidden; }
+
+        .hscroll-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+            padding-right: 8vw;
+        }
+
+        .hscroll-track {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            padding-bottom: 1rem;
+        }
+
+        .hscroll-track::-webkit-scrollbar { display: none; }
+
+        .hscroll-item {
+            flex: 0 0 35vw;
+            min-width: 300px;
+            scroll-snap-align: start;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .hscroll-item:active { cursor: grabbing; }
+
+        .hscroll-item img {
+            width: 100%;
+            height: 50vh;
+            object-fit: cover;
+            display: block;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hscroll-item:hover img { transform: scale(1.04); }
+
+        .hscroll-caption {
+            padding: 1.2rem 0;
+        }
+
+        .hscroll-caption h4 {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .hscroll-caption p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* --- BOOKING FORM --- */
+        .booking-container {
+            max-width: 860px;
+            margin: -8vh auto 0;
+            background: white;
+            padding: 5rem 5rem 4rem;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.08);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .booking-header h3 {
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+
+        .booking-header .mono {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        label {
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.65rem;
+            color: var(--text-light);
+            margin-bottom: 0.8rem;
+        }
+
+        input, select, textarea {
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            padding: 1rem 0;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            background: transparent;
+            color: var(--charcoal);
+            transition: border-color 0.4s ease;
+            outline: none;
+            border-radius: 0;
+            -webkit-appearance: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-bottom-color: var(--clay);
+        }
+
+        input::placeholder { color: #ccc; }
+
+        .btn-submit {
+            background: var(--clay);
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 1.4rem 3rem;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.4s ease;
+            margin-top: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover { background: var(--jungle); }
+
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-submit:active::after { width: 400px; height: 400px; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--charcoal);
+            padding: 8vh 8vw 4vh;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 6vh;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .footer-brand .logo {
+            font-size: 2rem;
+            letter-spacing: 8px;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--clay);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover { color: white; }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 3vh;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-social a {
+            color: rgba(255,255,255,0.25);
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover { color: var(--clay); }
+
+        /* --- BACK TO TOP --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 2.5rem; right: 2.5rem;
+            width: 48px; height: 48px;
+            background: var(--clay);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 900;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .back-to-top.visible { opacity: 1; transform: translateY(0); }
+        .back-to-top:hover { background: var(--jungle); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .rooms-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .split { grid-template-columns: 1fr; gap: 3rem; }
+            .split.reverse { direction: ltr; }
+            .form-row { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .section { padding: 10vh 6vw; }
+            .booking-container { padding: 3rem 2rem; margin-left: 4vw; margin-right: 4vw; }
+            .booking-header { flex-direction: column; }
+            .hscroll-item { flex: 0 0 80vw; }
+            .hero-content h1 { font-size: clamp(3rem, 12vw, 5rem); }
+            .footer-top { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            .cursor-dot, .cursor-ring { display: none; }
+            .schedule-grid { grid-template-columns: 1fr 1fr; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .schedule-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FILM GRAIN -->
+    <div class="grain"></div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">VILLA</div>
+        <div class="preloader-bar"></div>
+    </div>
+
+    <!-- BACK TO TOP -->
+    <div class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</div>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <div class="logo" onclick="navigate('home')">VILLA</div>
+        <div class="nav-links">
+            <a onclick="navigate('home')" id="nav-home" class="active-link">HOME</a>
+            <a onclick="navigate('camp')" id="nav-camp">THE CAMP</a>
+            <a onclick="navigate('rooms')" id="nav-rooms">ROOMS</a>
+            <a onclick="navigate('reserve')" id="nav-reserve" class="btn-nav">RESERVE</a>
+        </div>
+        <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a onclick="navigate('home'); toggleMobileMenu();">HOME</a>
+        <a onclick="navigate('camp'); toggleMobileMenu();">THE CAMP</a>
+        <a onclick="navigate('rooms'); toggleMobileMenu();">ROOMS</a>
+        <a onclick="navigate('reserve'); toggleMobileMenu();">RESERVE</a>
+    </div>
+
+
+    <!-- ========== PAGE: HOME ========== -->
+    <main id="home" class="page-view active">
+
+        <header class="hero">
+            <div class="hero-bg" id="parallax-home" style="background-image: url('IMG_9760.PNG');"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="reveal">
+                    <p class="mono" style="color: var(--gold); margin-bottom: 1.5rem;">Siem Reap, Cambodia</p>
+                    <h1>DISCIPLINE<br>&amp; TRANQUILITY</h1>
+                    <p class="subtitle">A boutique sanctuary built around the beating heart of an authentic Cambodian Kun Khmer camp.</p>
+                    <a class="hero-cta" onclick="navigate('camp')">Explore the Camp</a>
+                </div>
+            </div>
+            <div class="hero-scroll-hint">
+                <span class="mono">Scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </header>
+
+        <!-- MARQUEE -->
+        <div class="marquee">
+            <div class="marquee-track">
+                <span class="marquee-item">DISCIPLINE <span class="dot"></span> RECOVERY <span class="dot"></span> COMMUNITY <span class="dot"></span> KUN KHMER <span class="dot"></span> TRADITION <span class="dot"></span> SANCTUARY <span class="dot"></span></span>
+                <span class="marquee-item">DISCIPLINE <span class="dot"></span> RECOVERY <span class="dot"></span> COMMUNITY <span class="dot"></span> KUN KHMER <span class="dot"></span> TRADITION <span class="dot"></span> SANCTUARY <span class="dot"></span></span>
+            </div>
+        </div>
+
+        <!-- INTRO -->
+        <section class="section bg-linen text-center">
+            <span class="section-label reveal">The Philosophy</span>
+            <h2 class="section-title reveal d1">NOT JUST A PLACE<br>TO SLEEP.</h2>
+            <p class="section-intro reveal d2">
+                Nestled in the lush Cambodian tropics, Villa is a refuge for those who travel with purpose. The saltwater pools and woven hammocks are a reward for the work put in on the mats. <span class="accent">The fighting is the heart of the hostel.</span> It dictates our rhythm, our community, and our ethos.
+            </p>
+        </section>
+
+        <!-- SPLIT: ART OF EIGHT LIMBS -->
+        <section class="section bg-linen" style="padding-top: 0;">
+            <div class="split">
+                <div class="split-text reveal-left">
+                    <span class="label">01 &mdash; The Tradition</span>
+                    <h3>THE ART OF<br>EIGHT LIMBS</h3>
+                    <p>Rooted in the ancient traditions of Kun Khmer, our open-air training pavilion is the centerpiece of the grounds. Wake to the rhythmic crack of pads and the scent of liniment in the humid morning air.</p>
+                    <a class="text-link" onclick="navigate('camp')">Discover the camp <span class="text-link-arrow">&rarr;</span></a>
+                </div>
+                <div class="split-media reveal-right d2">
+                    <img src="https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=1000&q=80" alt="Training Gloves">
+                    <div class="img-badge">Est. 2024</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPLIT: RECOVERY -->
+        <section class="section bg-linen-dark">
+            <div class="split reverse">
+                <div class="split-text reveal-right">
+                    <span class="label">02 &mdash; The Recovery</span>
+                    <h3>AFTER THE<br>BELL RINGS</h3>
+                    <p>Cold plunge pools, communal feasts of Khmer cuisine, and hammock-strung gardens. Every element is designed to accelerate your body's recovery and still the mind.</p>
+                    <a class="text-link" onclick="navigate('rooms')">See the rooms <span class="text-link-arrow">&rarr;</span></a>
+                </div>
+                <div class="split-media reveal-left d2">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1000&q=80" alt="Recovery pool">
+                    <div class="img-badge">Saltwater Plunge</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIAL -->
+        <section class="section bg-charcoal text-center testimonial-section">
+            <div class="reveal">
+                <span class="section-label" style="color: var(--gold);">What They Say</span>
+                <div class="testimonial-quote">
+                    I came for two weeks and stayed for three months. The krus changed my technique, the community changed my perspective, and Cambodia changed my life.
+                </div>
+                <div class="testimonial-author">Marcus Vella</div>
+                <div class="testimonial-role">Professional Fighter &mdash; Melbourne, Australia</div>
+            </div>
+        </section>
+
+        <!-- CTA BANNER -->
+        <section class="section bg-dark text-center">
+            <div class="reveal">
+                <h2 class="section-title" style="color: white; margin-bottom: 1.5rem;">READY TO TRAIN?</h2>
+                <p style="color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto 3rem;">Bunks fill fast. Secure your spot and join a lineage of fighters, travelers, and seekers.</p>
+                <a class="hero-cta" onclick="navigate('reserve')">Reserve Your Bunk</a>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ========== PAGE: THE CAMP ========== -->
+    <main id="camp" class="page-view">
+
+        <header class="hero hero-sub">
+            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1509563268479-0f004cf3f58b?auto=format&fit=crop&w=2000&q=80');"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content reveal">
+                <p class="mono" style="color: var(--gold); margin-bottom: 1rem;">Training &amp; Discipline</p>
+                <h1>THE CAMP</h1>
+                <p class="subtitle">Blood, sweat, and absolute dedication.</p>
+            </div>
+        </header>
+
+        <!-- TRAIN LIKE A LOCAL -->
+        <section class="section bg-linen">
+            <div class="split reverse">
+                <div class="split-text reveal-right">
+                    <span class="label">The Program</span>
+                    <h3>TRAIN LIKE<br>A LOCAL</h3>
+                    <p>Our program is run by veteran Cambodian Krus who have fought in the stadiums of Phnom Penh. Whether you are a seasoned professional preparing for a bout, or a traveler pushing your limits, you will train side-by-side with local champions.</p>
+                </div>
+                <div class="split-media reveal-left d2">
+                    <img src="https://images.unsplash.com/photo-1591117207239-788bf8de6c3b?auto=format&fit=crop&w=1000&q=80" alt="Fighter in ring">
+                    <div class="img-badge">Phnom Penh Lineage</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="section-sm bg-charcoal">
+            <div class="stats-row">
+                <div class="stat reveal d1">
+                    <div class="stat-number" data-target="6">0</div>
+                    <div class="stat-label">Resident Krus</div>
+                </div>
+                <div class="stat reveal d2">
+                    <div class="stat-number" data-target="2">0</div>
+                    <div class="stat-label">Daily Sessions</div>
+                </div>
+                <div class="stat reveal d3">
+                    <div class="stat-number" data-target="14">0</div>
+                    <div class="stat-label">Min. Stay (Days)</div>
+                </div>
+                <div class="stat reveal d4">
+                    <div class="stat-number" data-target="350">0</div>
+                    <div class="stat-label">Fighters Trained</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAILY SCHEDULE -->
+        <section class="section bg-dark text-center">
+            <span class="section-label reveal" style="color: var(--gold);">Structure Breeds Freedom</span>
+            <h2 class="section-title reveal d1" style="color: white; margin-bottom: 4rem;">THE DAILY RHYTHM</h2>
+
+            <div class="schedule-grid">
+                <div class="schedule-block reveal d1">
+                    <div class="schedule-time">06:00</div>
+                    <div class="schedule-title">Dawn Run</div>
+                    <div class="schedule-desc">5km through the jungle outskirts. Pace set by the krus.</div>
+                </div>
+                <div class="schedule-block reveal d2">
+                    <div class="schedule-time">07:00</div>
+                    <div class="schedule-title">Pad Work</div>
+                    <div class="schedule-desc">Shadow boxing, technique drilling, and pad rounds in the pavilion.</div>
+                </div>
+                <div class="schedule-block reveal d3">
+                    <div class="schedule-time">09:00</div>
+                    <div class="schedule-title">Breakfast</div>
+                    <div class="schedule-desc">Communal Khmer breakfast. Recovery and free time until afternoon.</div>
+                </div>
+                <div class="schedule-block reveal d4">
+                    <div class="schedule-time">16:00</div>
+                    <div class="schedule-title">Sparring</div>
+                    <div class="schedule-desc">Clinch work, live sparring, and heavy conditioning circuits.</div>
+                </div>
+                <div class="schedule-block reveal d5">
+                    <div class="schedule-time">18:30</div>
+                    <div class="schedule-title">Recovery</div>
+                    <div class="schedule-desc">Ice baths, stretching, and communal dinner under the stars.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section class="hscroll-section bg-linen">
+            <div class="hscroll-header">
+                <div>
+                    <span class="section-label reveal">Life at Camp</span>
+                    <h2 class="section-title reveal d1" style="margin-bottom: 0;">INSIDE THE GROUNDS</h2>
+                </div>
+            </div>
+            <div class="hscroll-track" id="hscroll-camp">
+                <div class="hscroll-item">
+                    <img src="https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=800&q=80" alt="Gloves">
+                    <div class="hscroll-caption"><h4>THE GLOVES</h4><p>Worn leather, earned respect.</p></div>
+                </div>
+                <div class="hscroll-item">
+                    <img src="https://images.unsplash.com/photo-1509563268479-0f004cf3f58b?auto=format&fit=crop&w=800&q=80" alt="Ring">
+                    <div class="hscroll-caption"><h4>THE RING</h4><p>Open air. No excuses.</p></div>
+                </div>
+                <div class="hscroll-item">
+                    <img src="https://images.unsplash.com/photo-1591117207239-788bf8de6c3b?auto=format&fit=crop&w=800&q=80" alt="Sparring">
+                    <div class="hscroll-caption"><h4>THE WORK</h4><p>Technical sparring, daily.</p></div>
+                </div>
+                <div class="hscroll-item">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" alt="Recovery">
+                    <div class="hscroll-caption"><h4>THE REWARD</h4><p>Cold plunge and stillness.</p></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ========== PAGE: ROOMS ========== -->
+    <main id="rooms" class="page-view">
+
+        <header class="hero hero-sub">
+            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=2000&q=80');"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content reveal">
+                <p class="mono" style="color: var(--gold); margin-bottom: 1rem;">Rest &amp; Recovery</p>
+                <h1>THE ROOMS</h1>
+                <p class="subtitle">Stripped-down luxury designed for deep recovery.</p>
+            </div>
+        </header>
+
+        <!-- ROOMS INTRO -->
+        <section class="section bg-linen text-center">
+            <span class="section-label reveal">Accommodation</span>
+            <h2 class="section-title reveal d1">THE ARCHITECTURE<br>OF REST</h2>
+            <p class="section-intro reveal d2">
+                Raw concrete keeps the Cambodian heat at bay. Warm local teak grounds the space. Natural linens invite deep, restorative sleep. Every detail serves recovery.
+            </p>
+        </section>
+
+        <!-- ROOM CARDS -->
+        <section class="section bg-linen" style="padding-top: 0;">
+            <div class="rooms-grid">
+                <div class="room-card reveal d1" onclick="navigate('reserve')">
+                    <div class="room-card-img-wrap">
+                        <img class="room-card-img" src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" alt="Fighters Bunk">
+                    </div>
+                    <div class="room-card-body">
+                        <div class="room-card-type">Shared &mdash; 4 Beds</div>
+                        <div class="room-card-name">The Fighter's Bunk</div>
+                        <div class="room-card-desc">Clean, communal living. Locker storage, shared bathroom, and the camaraderie of fellow travelers.</div>
+                        <div class="room-card-footer">
+                            <div class="room-price">$18 <span>/ night</span></div>
+                            <div class="room-features">
+                                <span class="room-feat">A/C</span>
+                                <span class="room-feat">Locker</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-card reveal d2" onclick="navigate('reserve')">
+                    <div class="room-card-img-wrap">
+                        <img class="room-card-img" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80" alt="Concrete Suite">
+                    </div>
+                    <div class="room-card-body">
+                        <div class="room-card-type">Private &mdash; Double</div>
+                        <div class="room-card-name">Concrete Suite</div>
+                        <div class="room-card-desc">Private en-suite with polished concrete floors, rain shower, and a writing desk facing the garden.</div>
+                        <div class="room-card-footer">
+                            <div class="room-price">$55 <span>/ night</span></div>
+                            <div class="room-features">
+                                <span class="room-feat">En-suite</span>
+                                <span class="room-feat">Garden</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-card reveal d3" onclick="navigate('reserve')">
+                    <div class="room-card-img-wrap">
+                        <img class="room-card-img" src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80" alt="Pavilion Suite">
+                    </div>
+                    <div class="room-card-body">
+                        <div class="room-card-type">Premium &mdash; King</div>
+                        <div class="room-card-name">Pavilion Master Suite</div>
+                        <div class="room-card-desc">Our finest room. Private terrace overlooking the training pavilion, outdoor soaking tub, and king teak bed.</div>
+                        <div class="room-card-footer">
+                            <div class="room-price">$120 <span>/ night</span></div>
+                            <div class="room-features">
+                                <span class="room-feat">Terrace</span>
+                                <span class="room-feat">Soaking Tub</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AMENITIES SPLIT -->
+        <section class="section bg-linen-dark">
+            <div class="split">
+                <div class="split-text reveal-left">
+                    <span class="label">Included</span>
+                    <h3>BEYOND THE<br>BEDROOM</h3>
+                    <p>Every stay includes access to the saltwater plunge pool, hammock gardens, communal kitchen, high-speed wifi, and of course &mdash; the training camp. Bicycles are provided for exploring the surrounding countryside.</p>
+                    <a class="text-link" onclick="navigate('reserve')">Book your stay <span class="text-link-arrow">&rarr;</span></a>
+                </div>
+                <div class="split-media reveal-right d2">
+                    <img src="https://images.unsplash.com/photo-1574269980076-477bf27cb220?auto=format&fit=crop&w=1000&q=80" alt="Villa Grounds">
+                    <div class="img-badge">All Inclusive</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ========== PAGE: RESERVE ========== -->
+    <main id="reserve" class="page-view">
+
+        <header class="hero hero-sub">
+            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=2000&q=80');"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content reveal">
+                <p class="mono" style="color: var(--gold); margin-bottom: 1rem;">Limited Availability</p>
+                <h1>SECURE YOUR<br>BUNK</h1>
+                <p class="subtitle">Join the community.</p>
+            </div>
+        </header>
+
+        <section class="bg-linen" style="padding-bottom: 12vh;">
+            <div class="booking-container reveal">
+                <div class="booking-header">
+                    <div>
+                        <h3>RESERVATION<br>REQUEST</h3>
+                    </div>
+                    <div class="mono" style="text-align: right; color: var(--text-light); line-height: 2;">
+                        Min. 14 Night Stay<br>
+                        Response within 48hrs
+                    </div>
+                </div>
+
+                <form onsubmit="event.preventDefault(); showConfirmation();">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" required placeholder="John">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" required placeholder="Doe">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Experience Level</label>
+                            <select>
+                                <option>Beginner / Fitness</option>
+                                <option>Intermediate / Amateur</option>
+                                <option>Professional Fighter</option>
+                                <option>Recovery / Accommodation Only</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Arrival Date</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Departure Date</label>
+                            <input type="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full">
+                            <label>Accommodation</label>
+                            <select required>
+                                <option value="" disabled selected>Select an option...</option>
+                                <option>The Fighter's Bunk (Shared) &mdash; $18/night</option>
+                                <option>Private Concrete Suite &mdash; $55/night</option>
+                                <option>The Pavilion Master Suite &mdash; $120/night</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full">
+                            <label>Tell Us About Yourself</label>
+                            <textarea rows="3" placeholder="Training goals, fight history, dietary requirements..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Request Booking</button>
+                </form>
+
+                <div id="confirmationMsg" style="display:none; text-align:center; padding: 3rem 0;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">&#10003;</div>
+                    <h3 style="font-family:'Oswald'; font-size: 1.8rem; margin-bottom: 1rem;">REQUEST RECEIVED</h3>
+                    <p style="color: var(--text-light);">We'll respond within 48 hours. Check your inbox.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ========== FOOTER (GLOBAL) ========== -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <span class="logo" style="color: white;">VILLA</span>
+                <p>A boutique Kun Khmer training sanctuary in the heart of Cambodia. Train hard. Rest deeper.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigate</h4>
+                <a onclick="navigate('home')" style="cursor:pointer;">Home</a>
+                <a onclick="navigate('camp')" style="cursor:pointer;">The Camp</a>
+                <a onclick="navigate('rooms')" style="cursor:pointer;">Rooms</a>
+                <a onclick="navigate('reserve')" style="cursor:pointer;">Reserve</a>
+            </div>
+            <div class="footer-col">
+                <h4>Information</h4>
+                <a>FAQs</a>
+                <a>Visa Info</a>
+                <a>Getting Here</a>
+                <a>What to Bring</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a>hello@villacambodia.com</a>
+                <a>Siem Reap, Cambodia</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2025 Villa Kun Khmer. All rights reserved.</span>
+            <div class="footer-social">
+                <a>Instagram</a>
+                <a>YouTube</a>
+                <a>TikTok</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- PRELOADER ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('done');
+            }, 2200);
+        });
+
+        // --- CUSTOM CURSOR ---
+        const dot = document.getElementById('cursorDot');
+        const ring = document.getElementById('cursorRing');
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        document.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dot.style.left = mouseX - 4 + 'px';
+            dot.style.top = mouseY - 4 + 'px';
+        });
+
+        function animateRing() {
+            ringX += (mouseX - ringX) * 0.12;
+            ringY += (mouseY - ringY) * 0.12;
+            ring.style.left = ringX - 20 + 'px';
+            ring.style.top = ringY - 20 + 'px';
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        // Hover effect on interactive elements
+        document.querySelectorAll('a, button, .room-card, .hscroll-item, .schedule-block').forEach(el => {
+            el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+            el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+        });
+
+        // --- MOBILE MENU ---
+        function toggleMobileMenu() {
+            document.getElementById('hamburger').classList.toggle('open');
+            document.getElementById('mobileMenu').classList.toggle('open');
+            document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+        }
+
+        // --- SPA NAVIGATION ---
+        function navigate(pageId) {
+            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active-link'));
+
+            document.getElementById(pageId).classList.add('active');
+            const activeLink = document.getElementById('nav-' + pageId);
+            if (activeLink) activeLink.classList.add('active-link');
+
+            window.scrollTo(0, 0);
+            initReveals();
+            handleScroll();
+            initCounters();
+        }
+
+        // --- NAVBAR SCROLL ---
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+
+        function handleScroll() {
+            const scrolled = window.scrollY > 80;
+            navbar.classList.toggle('scrolled', scrolled);
+            backToTop.classList.toggle('visible', window.scrollY > 600);
+        }
+        window.addEventListener('scroll', handleScroll);
+
+        // --- PARALLAX ---
+        window.addEventListener('scroll', () => {
+            const activeHero = document.querySelector('.page-view.active .hero-bg');
+            if (activeHero) {
+                const scrollPos = window.pageYOffset;
+                const heroHeight = activeHero.parentElement.offsetHeight;
+                if (scrollPos < heroHeight) {
+                    activeHero.style.transform = `translateY(${scrollPos * 0.35}px)`;
+                }
+            }
+        });
+
+        // --- INTERSECTION OBSERVER ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        function initReveals() {
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+                el.classList.remove('visible');
+                observer.observe(el);
+            });
+        }
+
+        initReveals();
+
+        // --- COUNTER ANIMATION ---
+        function initCounters() {
+            document.querySelectorAll('.stat-number[data-target]').forEach(counter => {
+                counter.innerText = '0';
+                counter.dataset.counted = 'false';
+            });
+
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.target.dataset.counted === 'false') {
+                        entry.target.dataset.counted = 'true';
+                        const target = parseInt(entry.target.dataset.target);
+                        let current = 0;
+                        const increment = target / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            entry.target.innerText = Math.floor(current) + (target >= 100 ? '+' : '');
+                        }, 25);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+                counterObserver.observe(el);
+            });
+        }
+
+        initCounters();
+
+        // --- HORIZONTAL SCROLL DRAG ---
+        document.querySelectorAll('.hscroll-track').forEach(track => {
+            let isDown = false, startX, scrollLeft;
+            track.addEventListener('mousedown', e => {
+                isDown = true;
+                startX = e.pageX - track.offsetLeft;
+                scrollLeft = track.scrollLeft;
+            });
+            track.addEventListener('mouseleave', () => isDown = false);
+            track.addEventListener('mouseup', () => isDown = false);
+            track.addEventListener('mousemove', e => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                track.scrollLeft = scrollLeft - (x - startX) * 1.5;
+            });
+        });
+
+        // --- FORM CONFIRMATION ---
+        function showConfirmation() {
+            const form = document.querySelector('#reserve form');
+            const msg = document.getElementById('confirmationMsg');
+            form.style.display = 'none';
+            msg.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
