@@ -53,3 +53,17 @@
   - before: 34,961,317 bytes
   - after: 1,532,274 bytes
   - saved: 33,429,043 bytes (95.62% reduction)
+
+## Verification Patch (2026-02-26)
+- [x] Fix skip-link conflict with SPA hash routing
+- [x] Make form success confirmation deterministic on return URL
+- [x] Remove fragment URLs from sitemap
+- [x] Align OG image dimensions with actual image asset
+- [x] Re-verify sitemap validity and patched selectors/fields
+
+## REVIEW (Verification Patch)
+- `Skip to content` now uses a JS handler that focuses the active `<main>` without mutating URL hash, preventing SPA route resets.
+- FormSubmit return URL now appends `?submitted=1#reserve`; confirmation logic checks `URLSearchParams(...).has('submitted')` with referrer fallback.
+- Sitemap now lists only the canonical root URL (no fragment locations).
+- Open Graph dimensions updated to match `fightersparring.webp` (`2752x1536`).
+- Verification run: `xmllint --noout sitemap.xml` passes and target fields/selectors are present in `index.html`.
