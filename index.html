@@ -6,7 +6,12 @@
     <title>Villa Martial Arts Gym & Hostel | Kun Khmer in Toul Tom Poung, Phnom Penh</title>
     <meta name="description" content="Train Kun Khmer, kickboxing, and boxing in Toul Tom Poung, Phnom Penh. Villa Martial Arts Gym & Hostel offers beginner-friendly classes, fighter-focused sessions, and budget-friendly rooms near Russian Market.">
     <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="/">
+    <link rel="icon" href="IMG_9760.PNG">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Villa Martial Arts Gym & Hostel">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="/">
     <meta property="og:title" content="Villa Martial Arts Gym & Hostel | Kun Khmer in Phnom Penh">
     <meta property="og:description" content="Kun Khmer classes and budget-friendly hostel stays in Toul Tom Poung, Phnom Penh.">
     <meta property="og:image" content="IMG_9760.PNG">
@@ -14,18 +19,39 @@
     <meta name="twitter:title" content="Villa Martial Arts Gym & Hostel | Kun Khmer in Phnom Penh">
     <meta name="twitter:description" content="Train Kun Khmer and stay in Toul Tom Poung, Phnom Penh.">
     <meta name="twitter:image" content="IMG_9760.PNG">
+    <meta name="theme-color" content="#141414">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Oswald:wght@300;400;500;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <script>document.documentElement.classList.add('js');</script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Hostel",
       "name": "Villa Martial Arts Gym & Hostel",
+      "url": "/",
       "description": "Kun Khmer, boxing, and kickboxing focused hostel and training community in Toul Tom Poung, Phnom Penh.",
+      "priceRange": "$6-$16",
+      "hasMap": "https://maps.google.com/?q=St+476+Phnom+Penh+Cambodia",
+      "image": [
+        "IMG_9760.PNG",
+        "fightersparring.png",
+        "privateroomactually.png"
+      ],
       "telephone": "+855969960442",
       "email": "villammaphnompenh@gmail.com",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+855969960442",
+          "contactType": "reservations",
+          "availableLanguage": [
+            "English",
+            "Khmer"
+          ]
+        }
+      ],
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "St 476",
@@ -54,6 +80,36 @@
           "@type": "LocationFeatureSpecification",
           "name": "Budget hostel rooms",
           "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Saltwater plunge pool",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Shared kitchen and lounge",
+          "value": true
+        }
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Day Pass Training",
+          "priceCurrency": "USD",
+          "price": "10"
+        },
+        {
+          "@type": "Offer",
+          "name": "Shared Room (From)",
+          "priceCurrency": "USD",
+          "price": "6"
+        },
+        {
+          "@type": "Offer",
+          "name": "Private Room (From)",
+          "priceCurrency": "USD",
+          "price": "15"
         }
       ],
       "sameAs": [
@@ -61,6 +117,32 @@
         "https://www.facebook.com/villamartialartsphnompenh/",
         "https://www.booking.com/hotel/kh/villa-martial-arts.html",
         "https://www.hostelworld.com/hostels/p/322300/villa-martial-arts-gym-and-hostel/"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsActivityLocation",
+      "name": "Villa Martial Arts Gym",
+      "url": "/",
+      "description": "All-level Kun Khmer, kickboxing, and boxing sessions in Toul Tom Poung, Phnom Penh.",
+      "telephone": "+855969960442",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "St 476",
+        "addressLocality": "Phnom Penh",
+        "addressRegion": "Chamkar Mon",
+        "addressCountry": "KH"
+      },
+      "sport": [
+        "Kun Khmer",
+        "Kickboxing",
+        "Boxing"
+      ],
+      "sameAs": [
+        "https://www.instagram.com/villa_martial_arts/",
+        "https://www.facebook.com/villamartialartsphnompenh/"
       ]
     }
     </script>
@@ -169,6 +251,7 @@
 
         /* --- CUSTOM CURSOR --- */
         .cursor-dot {
+            display: none;
             position: fixed;
             width: 8px; height: 8px;
             background: var(--clay);
@@ -180,6 +263,7 @@
         }
 
         .cursor-ring {
+            display: none;
             position: fixed;
             width: 40px; height: 40px;
             border: 1.5px solid var(--clay);
@@ -195,18 +279,27 @@
             border-color: var(--gold);
         }
 
+        html.js .cursor-dot,
+        html.js .cursor-ring {
+            display: block;
+        }
+
         /* --- PRELOADER --- */
         .preloader {
+            display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: var(--charcoal);
             z-index: 99999;
-            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        html.js .preloader {
+            display: flex;
         }
 
         .preloader.done {
@@ -378,11 +471,17 @@
 
         /* --- PAGE ROUTING --- */
         .page-view {
+            display: block;
+            opacity: 1;
+        }
+
+        html.js .page-view {
             display: none;
             opacity: 0;
             animation: pageIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .page-view.active { display: block; }
+
+        html.js .page-view.active { display: block; }
 
         @keyframes pageIn {
             from { opacity: 0; }
@@ -845,7 +944,7 @@
         .legend-dot.all { background: rgba(255,255,255,0.85); }
         .legend-dot.special { background: var(--gold); }
 
-        /* --- LOCAL SEO BLOCKS --- */
+        /* --- LOCATION BLOCKS --- */
         .area-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1360,12 +1459,12 @@
 
     <!-- NAVIGATION -->
     <nav id="navbar">
-        <div class="logo" onclick="navigate('home')">VILLA</div>
+        <a class="logo" href="#home" onclick="navigate('home'); return false;">VILLA</a>
         <div class="nav-links">
-            <a onclick="navigate('home')" id="nav-home" class="active-link">HOME</a>
-            <a onclick="navigate('camp')" id="nav-camp">THE CAMP</a>
-            <a onclick="navigate('rooms')" id="nav-rooms">ROOMS</a>
-            <a onclick="navigate('reserve')" id="nav-reserve" class="btn-nav">RESERVE</a>
+            <a href="#home" onclick="navigate('home'); return false;" id="nav-home" class="active-link">HOME</a>
+            <a href="#camp" onclick="navigate('camp'); return false;" id="nav-camp">THE CAMP</a>
+            <a href="#rooms" onclick="navigate('rooms'); return false;" id="nav-rooms">ROOMS</a>
+            <a href="#reserve" onclick="navigate('reserve'); return false;" id="nav-reserve" class="btn-nav">RESERVE</a>
         </div>
         <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
             <span></span><span></span><span></span>
@@ -1374,10 +1473,10 @@
 
     <!-- MOBILE MENU -->
     <div class="mobile-menu" id="mobileMenu">
-        <a onclick="navigate('home'); toggleMobileMenu();">HOME</a>
-        <a onclick="navigate('camp'); toggleMobileMenu();">THE CAMP</a>
-        <a onclick="navigate('rooms'); toggleMobileMenu();">ROOMS</a>
-        <a onclick="navigate('reserve'); toggleMobileMenu();">RESERVE</a>
+        <a href="#home" onclick="navigate('home'); toggleMobileMenu(); return false;">HOME</a>
+        <a href="#camp" onclick="navigate('camp'); toggleMobileMenu(); return false;">THE CAMP</a>
+        <a href="#rooms" onclick="navigate('rooms'); toggleMobileMenu(); return false;">ROOMS</a>
+        <a href="#reserve" onclick="navigate('reserve'); toggleMobileMenu(); return false;">RESERVE</a>
     </div>
 
 
@@ -1392,7 +1491,7 @@
                     <p class="mono" style="color: var(--gold); margin-bottom: 1.5rem;">Toul Tom Poung, Phnom Penh</p>
                     <h1>DISCIPLINE<br>&amp; TRANQUILITY</h1>
                     <p class="subtitle">Kun Khmer training and budget-friendly hostel stays in Phnom Penh for fighters, beginners, and active travelers.</p>
-                    <a class="hero-cta" onclick="navigate('camp')">Explore the Camp</a>
+                    <a class="hero-cta" href="#camp" onclick="navigate('camp'); return false;">Explore the Camp</a>
                 </div>
             </div>
             <div class="hero-scroll-hint">
@@ -1419,27 +1518,27 @@
         </section>
 
         <section class="section bg-linen-dark text-center" id="phnom-penh-location">
-            <span class="section-label reveal">Phnom Penh Areas</span>
-            <h2 class="section-title reveal d1">KUN KHMER TRAINING IN<br>THE RIGHT LOCATION</h2>
+            <span class="section-label reveal">Location &amp; Access</span>
+            <h2 class="section-title reveal d1">TRAIN IN TOUL TOM POUNG,<br>STAY CLOSE TO EVERYTHING</h2>
             <p class="section-intro reveal d2">
                 We are based on St 476 in Toul Tom Poung (Russian Market area), within Chamkar Mon. This puts you close to BKK1, central transport routes, and daily class access without long commutes.
             </p>
             <div class="area-grid">
                 <article class="area-card reveal d1">
                     <h3>Toul Tom Poung / Russian Market</h3>
-                    <p>Best fit for searches like <strong>kun khmer gym toul tom poung</strong> and <strong>martial arts hostel russian market</strong>. Walkable food, markets, and training rhythm.</p>
+                    <p>Walk to Russian Market cafes, pharmacies, and food stalls between sessions. It is the easiest base if you want to train and explore on foot.</p>
                 </article>
                 <article class="area-card reveal d2">
                     <h3>Chamkar Mon</h3>
-                    <p>Strong for <strong>kickboxing classes chamkar mon</strong> and <strong>boxing gym chamkar mon phnom penh</strong>. Good district-level intent from long-stay and expat searchers.</p>
+                    <p>You stay in one of Phnom Penh&rsquo;s most practical districts for long stays, with quick tuk-tuk routes to daily essentials and city services.</p>
                 </article>
                 <article class="area-card reveal d3">
                     <h3>BKK1 / BKK2 Nearby</h3>
-                    <p>Captures <strong>kickboxing classes near BKK1</strong> and <strong>beginner kun khmer phnom penh</strong> intent from visitors staying in central Phnom Penh.</p>
+                    <p>Guests based in BKK can reach us quickly for morning or evening classes, then head back without losing half the day in traffic.</p>
                 </article>
                 <article class="area-card reveal d4">
                     <h3>Citywide Phnom Penh</h3>
-                    <p>Compete on broad terms such as <strong>martial arts gym phnom penh</strong> and <strong>kun khmer classes phnom penh</strong> with local proof and clear pricing.</p>
+                    <p>Whether you are in town for one week or one month, Villa gives you a single place to train, sleep, recover, and book onward travel.</p>
                 </article>
             </div>
             <div class="local-cta-row reveal d4">
@@ -1456,7 +1555,7 @@
                     <span class="label">01 &mdash; The Tradition</span>
                     <h3>THE ART OF<br>EIGHT LIMBS</h3>
                     <p>Rooted in the ancient traditions of Kun Khmer, our open-air training pavilion is the centerpiece of the grounds. Wake to the rhythmic crack of pads and the scent of liniment in the humid morning air.</p>
-                    <a class="text-link" onclick="navigate('camp')">Discover the camp <span class="text-link-arrow">&rarr;</span></a>
+                    <a class="text-link" href="#camp" onclick="navigate('camp'); return false;">Discover the camp <span class="text-link-arrow">&rarr;</span></a>
                 </div>
                 <div class="split-media reveal-right d2">
                     <img src="boxinggymbag.jpg" alt="Heavy bags and flags in Villa training pavilion">
@@ -1472,7 +1571,7 @@
                     <span class="label">02 &mdash; The Recovery</span>
                     <h3>AFTER THE<br>BELL RINGS</h3>
                     <p>Cold plunge pools, communal feasts of Khmer cuisine, and hammock-strung gardens. Every element is designed to accelerate your body's recovery and still the mind.</p>
-                    <a class="text-link" onclick="navigate('rooms')">See the rooms <span class="text-link-arrow">&rarr;</span></a>
+                    <a class="text-link" href="#rooms" onclick="navigate('rooms'); return false;">See the rooms <span class="text-link-arrow">&rarr;</span></a>
                 </div>
                 <div class="split-media reveal-left d2">
                     <img src="loungearea.jpg" alt="Villa lounge area with pool table and lanterns">
@@ -1498,7 +1597,7 @@
             <div class="reveal">
                 <h2 class="section-title" style="color: white; margin-bottom: 1.5rem;">READY TO TRAIN?</h2>
                 <p style="color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto 3rem;">Bunks fill fast. Secure your spot and join a lineage of fighters, travelers, and seekers.</p>
-                <a class="hero-cta" onclick="navigate('reserve')">Reserve Your Bunk</a>
+                <a class="hero-cta" href="#reserve" onclick="navigate('reserve'); return false;">Reserve Your Bunk</a>
             </div>
         </section>
 
@@ -1524,7 +1623,7 @@
                 <div class="split-text reveal-right">
                     <span class="label">The Program</span>
                     <h3>TRAIN LIKE<br>A LOCAL</h3>
-                    <p>Our program is run by veteran Cambodian Krus who have fought in the stadiums of Phnom Penh. Whether you are a seasoned professional preparing for a bout, or a traveler pushing your limits, you will train side-by-side with local champions.</p>
+                    <p>Our program is run by veteran Cambodian Krus who have fought in the stadiums of Phnom Penh. We run daily Kun Khmer, kickboxing, and boxing classes for beginners, intermediate guests, and active fighters preparing for bouts.</p>
                 </div>
                 <div class="split-media reveal-left d2">
                     <img src="fightersparring.png" alt="Fighters sparring in Villa pavilion">
@@ -1559,6 +1658,9 @@
         <section class="section bg-dark text-center">
             <span class="section-label reveal" style="color: var(--gold);">Weekly Timetable</span>
             <h2 class="section-title reveal d1" style="color: white; margin-bottom: 4rem;">THE SCHEDULE</h2>
+            <p class="section-intro reveal d2" style="max-width: 760px; margin-bottom: 3rem; color: rgba(255,255,255,0.6);">
+                Morning and evening sessions run across the week, with all-level classes, fighter-focused blocks, and weekend specialty sessions.
+            </p>
 
             <div class="schedule-wrapper reveal d2">
                 <table class="schedule-table">
@@ -1728,7 +1830,7 @@
             <span class="section-label reveal">Accommodation</span>
             <h2 class="section-title reveal d1">THE ARCHITECTURE<br>OF REST</h2>
             <p class="section-intro reveal d2">
-                Raw concrete keeps the Cambodian heat at bay. Warm local teak grounds the space. Natural linens invite deep, restorative sleep. Every detail serves recovery.
+                Choose between budget-friendly dorm beds and practical private rooms in Toul Tom Poung. Raw concrete keeps the Cambodian heat at bay, while warm teak and natural linens keep your recovery simple and comfortable.
             </p>
         </section>
 
@@ -1798,7 +1900,7 @@
                     <span class="label">Included</span>
                     <h3>BEYOND THE<br>BEDROOM</h3>
                     <p>Every stay includes access to the saltwater plunge pool, hammock gardens, communal kitchen, high-speed wifi, and of course &mdash; the training camp. Bicycles are provided for exploring the surrounding countryside.</p>
-                    <a class="text-link" onclick="navigate('reserve')">Book your stay <span class="text-link-arrow">&rarr;</span></a>
+                    <a class="text-link" href="#reserve" onclick="navigate('reserve'); return false;">Book your stay <span class="text-link-arrow">&rarr;</span></a>
                 </div>
                 <div class="split-media reveal-right d2">
                     <img src="staffatbar.png" alt="Villa bar staff and amenities area">
@@ -1819,7 +1921,7 @@
             <div class="hero-content reveal">
                 <p class="mono" style="color: var(--gold); margin-bottom: 1rem;">Limited Availability</p>
                 <h1>SECURE YOUR<br>BUNK</h1>
-                <p class="subtitle">Join the community.</p>
+                <p class="subtitle">Reserve your stay and lock in your training sessions.</p>
             </div>
         </header>
 
@@ -1939,14 +2041,14 @@
             </div>
             <div class="footer-col">
                 <h4>Navigate</h4>
-                <a onclick="navigate('home')" style="cursor:pointer;">Home</a>
-                <a onclick="navigate('camp')" style="cursor:pointer;">The Camp</a>
-                <a onclick="navigate('rooms')" style="cursor:pointer;">Rooms</a>
-                <a onclick="navigate('reserve')" style="cursor:pointer;">Reserve</a>
+                <a href="#home" onclick="navigate('home'); return false;">Home</a>
+                <a href="#camp" onclick="navigate('camp'); return false;">The Camp</a>
+                <a href="#rooms" onclick="navigate('rooms'); return false;">Rooms</a>
+                <a href="#reserve" onclick="navigate('reserve'); return false;">Reserve</a>
             </div>
             <div class="footer-col">
                 <h4>Information</h4>
-                <a onclick="navigate('reserve')" style="cursor:pointer;">FAQs</a>
+                <a href="#reserve" onclick="navigate('reserve'); return false;">FAQs</a>
                 <a href="https://maps.google.com/?q=St+476+Phnom+Penh+Cambodia" target="_blank" rel="noopener">Getting Here</a>
                 <a href="https://www.booking.com/hotel/kh/villa-martial-arts.html" target="_blank" rel="noopener">Live Availability</a>
                 <a href="https://www.hostelworld.com/hostels/p/322300/villa-martial-arts-gym-and-hostel/" target="_blank" rel="noopener">Hostelworld Listing</a>
@@ -2014,13 +2116,24 @@
         }
 
         // --- SPA NAVIGATION ---
-        function navigate(pageId) {
+        const pageIds = new Set(['home', 'camp', 'rooms', 'reserve']);
+
+        function normalizePageId(pageId) {
+            return pageIds.has(pageId) ? pageId : 'home';
+        }
+
+        function navigate(pageId, updateHash = true) {
+            const resolvedPageId = normalizePageId(pageId);
             document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active-link'));
 
-            document.getElementById(pageId).classList.add('active');
-            const activeLink = document.getElementById('nav-' + pageId);
+            document.getElementById(resolvedPageId).classList.add('active');
+            const activeLink = document.getElementById('nav-' + resolvedPageId);
             if (activeLink) activeLink.classList.add('active-link');
+
+            if (updateHash) {
+                history.replaceState(null, '', '#' + resolvedPageId);
+            }
 
             window.scrollTo(0, 0);
             initReveals();
@@ -2067,8 +2180,6 @@
             });
         }
 
-        initReveals();
-
         // --- COUNTER ANIMATION ---
         function initCounters() {
             document.querySelectorAll('.stat-number[data-target]').forEach(counter => {
@@ -2100,7 +2211,12 @@
             });
         }
 
-        initCounters();
+        window.addEventListener('hashchange', () => {
+            const targetPage = normalizePageId(window.location.hash.replace('#', ''));
+            navigate(targetPage, false);
+        });
+
+        navigate(normalizePageId(window.location.hash.replace('#', '')), false);
 
         // --- HORIZONTAL SCROLL DRAG ---
         document.querySelectorAll('.hscroll-track').forEach(track => {
