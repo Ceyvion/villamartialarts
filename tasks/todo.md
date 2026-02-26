@@ -37,3 +37,19 @@
 - Verification:
   - local server checks confirm updated headings/metadata and removal of old keyword-hint phrases
   - Playwright render pass confirms updated copy is visible and no console errors remain
+
+## Image Optimization (2026-02-26)
+- [x] Inventory image assets and in-page references
+- [x] Convert homepage/camp/rooms image assets to WebP
+- [x] Update HTML references to WebP in `index.html` and `villa concept 2.html`
+- [x] Verify all referenced image files exist
+- [x] Measure transfer-size reduction and estimate load-time improvement
+
+## REVIEW (Image Optimization)
+- Converted 7 photos from PNG/JPG to WebP (kept originals as backup files).
+- Updated all image references in primary and secondary HTML files to `.webp`.
+- Verified no remaining `.png`/`.jpg` references for these photos and all referenced files resolve on disk.
+- Payload change for the converted photo set:
+  - before: 34,961,317 bytes
+  - after: 1,532,274 bytes
+  - saved: 33,429,043 bytes (95.62% reduction)
