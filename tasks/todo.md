@@ -67,3 +67,13 @@
 - Sitemap now lists only the canonical root URL (no fragment locations).
 - Open Graph dimensions updated to match `fightersparring.webp` (`2752x1536`).
 - Verification run: `xmllint --noout sitemap.xml` passes and target fields/selectors are present in `index.html`.
+
+## Verification Follow-up (2026-02-26)
+- [x] Fix reduced-motion gap in parallax JS guard
+- [x] Ensure HTML revalidation cache header also applies to `/`
+- [x] Validate JSON and run browser smoke check
+
+## REVIEW (Verification Follow-up)
+- `index.html` parallax initialization now requires both desktop pointer and no reduced-motion preference.
+- `vercel.json` cache headers now target `/` directly in addition to `*.html`; extension patterns are escaped for clarity.
+- Validation run: `jq . vercel.json` passes and Playwright smoke load reported no console errors.
