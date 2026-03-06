@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Villa Martial Arts">
+  <rect width="64" height="64" rx="8" fill="#141414"/>
+  <path d="M14 14h10l8 28 8-28h10L36 50h-8L14 14z" fill="#B94A3E"/>
+  <path d="M22 14h8l2 7-3 11h-4L22 14zm20 0h8l-3 18h-4l-3-11 2-7z" fill="#C4A35A" opacity=".9"/>
+</svg>

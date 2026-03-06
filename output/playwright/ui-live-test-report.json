@@ -1,0 +1,61 @@
+{
+  "desktop": {
+    "home": {
+      "url": "http://127.0.0.1:4193/",
+      "title": "Villa Martial Arts Gym & Hostel | Kun Khmer in Toul Tom Poung, Phnom Penh",
+      "h1": "DISCIPLINE\n& TRANQUILITY",
+      "navVisible": true,
+      "mainVisible": true,
+      "navLinks": [
+        "Home",
+        "The Camp",
+        "Rooms",
+        "RESERVE"
+      ]
+    },
+    "camp": {
+      "url": "http://127.0.0.1:4193/camp/",
+      "title": "Kun Khmer, Boxing & Kickboxing Training in Phnom Penh | Villa Martial Arts Camp",
+      "h1": "THE CAMP",
+      "navVisible": true,
+      "mainVisible": true
+    },
+    "rooms": {
+      "url": "http://127.0.0.1:4193/rooms/",
+      "title": "Hostel Rooms Near Russian Market, Phnom Penh | Villa Martial Arts",
+      "h1": "THE ROOMS",
+      "navVisible": true,
+      "mainVisible": true
+    },
+    "reserve": {
+      "url": "http://127.0.0.1:4193/reserve/",
+      "title": "Book Training & Hostel Stay in Phnom Penh | Villa Martial Arts",
+      "h1": "SECURE YOUR\nBUNK",
+      "navVisible": true,
+      "mainVisible": true,
+      "formState": {
+        "departureMin": "2026-03-20",
+        "submitVisible": true
+      },
+      "confirmation": {
+        "formHidden": true,
+        "confirmationVisible": true,
+        "confirmationText": "REQUEST RECEIVED\nWE GOT YOUR BOOKING REQUEST\n\nThe team will respond within 48 hours. If you need a faster answer, message WhatsApp directly.\n\nWHATSAPP VILLA\nREVIEW TRAINING SCHEDULE"
+      }
+    }
+  },
+  "mobile": {
+    "home": {
+      "menuOpen": true,
+      "stickyBarVisible": true,
+      "whatsappVisible": true
+    },
+    "reserve": {
+      "title": "Book Training & Hostel Stay in Phnom Penh | Villa Martial Arts",
+      "heading": "SECURE YOUR\nBUNK",
+      "submitVisible": true
+    }
+  },
+  "errors": [],
+  "warnings": []
+}
